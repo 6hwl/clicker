@@ -14,10 +14,12 @@ namespace Clicker
 {
     public partial class Clicker : Form
     {
+        //Initialize Variables
         long perClick, num, upgradeCost, upgradeAutoCost, currentAuto, currentAuto2, currentAuto2Cost, currentAuto1;
         long auto3Cost, auto3Current;
         public Clicker()
         {
+            //Set each variables with label's text
             InitializeComponent();
             perClick = long.Parse(perClickLabel.Text);
             num = long.Parse(numClickLabel.Text);
@@ -33,13 +35,21 @@ namespace Clicker
 
         private void clickMeButton_Click(object sender, EventArgs e)
         {
+            //dummyButton is for preventing user from clicking by just holding enter key.
             dummyButton.Focus();
+            //When clicked Number of Clicks raise by perClick value.
             num += perClick;
             numClickLabel.Text = num.ToString();
         }
 
         private void upgradeButton_Click(object sender, EventArgs e)
         {
+            /*Upgrading the value by checking if you have enough clicks.
+             *This is done by decrement of number of clicks by the cost.
+             *Updating the cost of upgrade.
+             *Updating the value by a fixed number.
+             *Updating all text labels.
+            */
             if (num >= upgradeCost)
             {
                 num -= upgradeCost;
@@ -53,6 +63,7 @@ namespace Clicker
 
         private void autoClickButton_Click(object sender, EventArgs e)
         {
+            //See upgradeButton_Click comment.
             if (num >= upgradeAutoCost)
             {
                 num -= upgradeAutoCost;
@@ -66,12 +77,17 @@ namespace Clicker
 
         private void clickerTimer_Tick(object sender, EventArgs e)
         {
+            /*The Timer is set on an interval of 100ms. 
+             *Every 100ms, the number of clicks increment by the currentAuto value
+             *The Label is then updated
+            */
             num += currentAuto;
             numClickLabel.Text = num.ToString();
         }
 
         private void autoClickButton2_Click(object sender, EventArgs e)
         {
+            //See upgradeButton_Click comment.
             if (num >= currentAuto2Cost)
             {
                 num -= currentAuto2Cost;
@@ -85,6 +101,10 @@ namespace Clicker
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            /*The save is written using most basic TextWriter
+             *It saves the value into a text file named status.txt line by line
+             *Note: This is very insecure since you can modify the text file easily 
+            */
             TextWriter tw = new StreamWriter("status.txt");
 
             tw.WriteLine(perClick);
@@ -103,6 +123,9 @@ namespace Clicker
 
         private void loadButton_Click(object sender, EventArgs e)
         {
+            /*The load button loads the status.txt using TextReader
+             *It loads the value line by line and updates them into the variables.
+            */
             TextReader tr = new StreamReader("status.txt");
 
             perClick = long.Parse(tr.ReadLine());
@@ -131,6 +154,7 @@ namespace Clicker
 
         private void Auto3Button_Click(object sender, EventArgs e)
         {
+            //See upgradeButton_Click comment.
             if (num >= auto3Cost)
             {
                 num -= auto3Cost;
@@ -144,7 +168,9 @@ namespace Clicker
 
         private void resetButton_Click(object sender, EventArgs e)
         {
-
+            /* Reset button sets each of the value to its default
+             * then it updates the labels.
+            */
             perClick = 1;
             num = 0;
             upgradeCost = 20;
